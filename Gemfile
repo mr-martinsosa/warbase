@@ -66,3 +66,6 @@ gem 'devise'
 
 # Add Bootstrap for layout
 gem 'bootstrap'
+
+# Add HTTParty for foursquare api calls
+gem 'httparty'
