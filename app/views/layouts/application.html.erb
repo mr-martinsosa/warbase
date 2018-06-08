@@ -9,7 +9,44 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <%= yield %>
-  </body>
+  <body class="text-center">
+ 
+  <% if signed_in? %>
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+        <%= link_to 'Warbase', root_path, method: :get, class: "navbar-brand col-sm-3 col-md-2 mr-0" %>
+        <ul class="navbar-nav px-3">
+          <%#= link_to 'Profile', users_show_path, method: :get %>
+          <%#= link_to 'Players', users_show_all_path, method: :get %>
+            <strong class="signed-in-text"> Signed in as: <%= current_user.username %> </strong>
+        </ul>
+    </nav>
+    <%#= render :partial => 'shared/sidenav' %>
+    
+    
+  <% else %>
+      <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+          <%= link_to 'Warbase', root_path, method: :get, class: "navbar-brand col-sm-3 col-md-2 mr-0" %>
+          <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+              <%= button_to 'Sign in',  new_user_session_path, method: :get, class: "btn btn-primary" %>
+            </li>
+          </ul>
+      </nav>
+    
+  <% end %>
+
+  <%= yield %>
+
+  <div id="flash">
+    <% flash.each do |key, value| %>
+      <div class="flash <%= key %>"><%= value %></div>
+    <% end %>
+</div>
+  <footer>
+    <section class="container text-center">
+        <div class="card-body">
+            <h5 class="card-title"> © 2018 Warbase </h5>
+        </div>
+    </section>
+</footer>
 </html>
