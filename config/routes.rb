@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'home/foursquare'
+  # get 'home/foursquare'
   get 'home/index'
   devise_for :users, controllers: {
     sessions: 'users/sessions'
