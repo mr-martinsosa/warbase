@@ -9,6 +9,11 @@
   </div>
 
   <div class="field">
+    <%= f.label :username %><br />
+    <%= f.email_field :username, autocomplete: "username" %>
+  </div>
+
+  <div class="field">
     <%= f.label :password %>
     <% if @minimum_password_length %>
     <em>(<%= @minimum_password_length %> characters minimum)</em>
@@ -20,6 +25,12 @@
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
+
+  <%= rand = Random.new %>
+  <%= f.hidden_field :level, :value => 1 %>
+  <%= f.hidden_field :hp, :value => rand.rand(100) %>
+  <%= f.hidden_field :atk, :value => rand.rand(10) %>
+  <%= f.hidden_field :def, :value => rand.rand(10) %>
 
   <div class="actions">
     <%= f.submit "Sign up" %>

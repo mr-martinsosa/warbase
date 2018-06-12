@@ -5,6 +5,7 @@ class HomeController < ApplicationController
     @foursquare_id = ENV["FOURSQUARE_ID"]
     @foursquare_secret = ENV["FOURSQUARE_SECRET"]
     @user = current_user
+    @bases = Base.all
     #loop and first_or_create the locations nearby
     #grab lat/lng and put onto google map
   end

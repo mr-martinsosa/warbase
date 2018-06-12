@@ -32,6 +32,7 @@
           <%#= link_to 'Profile', users_show_path, method: :get %>
           <%#= link_to 'Players', users_show_all_path, method: :get %>
             <strong class="signed-in-text"> Signed in as: <%= current_user.username %> </strong>
+            <%= button_to 'Sign out',  destroy_user_session_path, method: :delete, class: "btn btn-primary" %>
         </ul>
     </nav>
     <%#= render :partial => 'shared/sidenav' %>
