@@ -31,9 +31,9 @@ class BasesController < ApplicationController
     end
 
     if @base.save
-      flash[:info] = "Base created"
+      p "Base created"
     else
-      flash[:info] = "It failed fam"
+      p "Base creation failed"
     end
   end
 end
