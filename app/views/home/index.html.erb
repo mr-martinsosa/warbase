@@ -111,6 +111,22 @@ if (navigator.geolocation) {
           index: i
         });
         mapMarkers.push(marker)
+        axios({
+                method: 'post',
+                url: '/outposts/',
+                // data: {
+                //   name: marker.title,
+                //   lat: lat,
+                //   lng: lng
+                // },
+                data: "lat=" + lat + "&lng=" + lng + "&location=" + marker.title,
+                headers: {
+                  // these two are required in order for the request to work
+                  'X-CSRF-Token': document.querySelector("meta[name=csrf-token]").content,
+                  // lets Rails know this is going to be an AJAX request
+                  'X-Requested-With': 'XMLHttpRequest'
+                }
+              })
 
         axios({
             method: 'get',
@@ -138,7 +154,8 @@ if (navigator.geolocation) {
               })
 
         marker.setMap(map);
-        
+
+          
             // create the html
           
         // console.log(html)
@@ -150,6 +167,23 @@ if (navigator.geolocation) {
           
           let lat = (data[i].venue.location.lat)
           let lng = (data[i].venue.location.lng)
+
+          axios({
+                method: 'post',
+                url: '/outposts/update',
+                // data: {
+                //   name: marker.title,
+                //   lat: lat,
+                //   lng: lng
+                // },
+                data: "lat=" + lat + "&lng=" + lng + "&location=" + marker.title,
+                headers: {
+                  // these two are required in order for the request to work
+                  'X-CSRF-Token': document.querySelector("meta[name=csrf-token]").content,
+                  // lets Rails know this is going to be an AJAX request
+                  'X-Requested-With': 'XMLHttpRequest'
+                }
+              })
          
                 // .then((response) => {})
           return function(){
@@ -167,7 +201,7 @@ if (navigator.geolocation) {
                 //   lat: lat,
                 //   lng: lng
                 // },
-                data: "lat=" + lat + "&lng=" + lng + "&name=" + marker.title,
+                data: "lat=" + lat + "&lng=" + lng + "&location=" + marker.title,
                 headers: {
                   // these two are required in order for the request to work
                   'X-CSRF-Token': document.querySelector("meta[name=csrf-token]").content,
@@ -209,14 +243,26 @@ function loadContent(base){
               console.log("def: " +def)
               user_id = base.getAttribute("data-id")
               console.log("user_id: " +user_id)
+
+              if( <%=current_user.hp%> <= 0 ){
+                playerStatus = document.createElement('div')
+                  playerStatus.classList.add("rpg")
+                  playerStatus.innerHTML= "You have died, make a new account. :)"
+                  let battleText = document.getElementById('battleText')
+                  battleText.appendChild(playerStatus)
+                  setTimeout(() => {
+                      location.reload();
+                    }, 10000);
+                  return
+                }
               if( <%=current_user.def%> > atk ){
                 playerDamage = 0
                 console.log("Player took lol: " + playerDamage)
               }else{
                 playerDamage = (<%=current_user.def%> - atk)
-                console.log("Player took :O! : " + playerDamage)
+                console.log("Player took damage! : " + playerDamage)
                 if(currentUserHP > playerDamage){
-                  currentUserHP  = playerDamage - <%= current_user.hp %>
+                  currentUserHP  = currentUserHP -  playerDamage 
                 }else{
                   currentUserHP = currentUserHP - playerDamage
                 }
@@ -239,33 +285,8 @@ function loadContent(base){
                 console.log("current damage taken:" +baseDamage)
                 console.log(atk)
               }
-              
-                if( currentUserHP <= 0 ){
-                  playerStatus = document.createElement('div')
-                  playerStatus.classList.add("rpg")
-                  playerStatus.innerHTML= "You have died, make a new account. :)"
-                  let battleText = document.getElementById('battleText')
-                  battleText.appendChild(playerStatus)
-                }else if(hp <= 0){
-                  console.log(baseDamage)
-                    user_id = <%= current_user.id %>
-                    playerStatus = document.createElement('div')
-                    playerStatus.classList.add("rpg");
-                    playerStatus.innerHTML= "Base captured by <%= current_user.username %>!"
-                    battleText.appendChild(playerStatus)
-                  }
-                else{
-                  player = document.querySelector("player-info")
-                  base = document.querySelector("base-info")
-                  player.classList.add("rpg");
-                  base.classList.add("rpg");
-                  player.innerHTML= "You take " + playerDamage + " damage!"
-                  base.innerHMTL= "Base takes " + baseDamage + " damage!"
-                  let battleText = document.getElementById('battleText')
-                  battleText.appendChild(player)
-                  battleText.appendChild(base)
-              }
 
+              console.log("winners user_id: " +user_id)
               axios({
                 method: 'post',
                 url: '/outposts/update',
@@ -300,6 +321,42 @@ function loadContent(base){
                 }
               })
 
+              
+                if( currentUserHP <= 0 ){
+                  playerStatus = document.createElement('div')
+                  playerStatus.classList.add("rpg")
+                  playerStatus.innerHTML= "You have died, make a new account. :)"
+                  let battleText = document.getElementById('battleText')
+                  battleText.appendChild(playerStatus)
+                  setTimeout(() => {
+                      location.reload();
+                    }, 10000);
+                  return
+                }else if(hp <= 0){
+                  console.log(baseDamage)
+                    user_id = <%= current_user.id %>
+                    playerStatus = document.createElement('div')
+                    playerStatus.classList.add("rpg");
+                    playerStatus.innerHTML= "Base captured by <%= current_user.username %>!"
+                    battleText.appendChild(playerStatus)
+                    setTimeout(() => {
+                      location.reload();
+                    }, 10000);
+                    return
+                  }
+                else{
+                  player = document.getElementById("player-info")
+                  base = document.getElementById("base-info")
+                  player.classList.add("rpg");
+                  base.classList.add("rpg");
+                  player.innerHTML= "You take " + playerDamage + " damage!"
+                  base.innerHMTL= "Base takes " + baseDamage + " damage!"
+                  let battleText = document.getElementById('battleText')
+                  battleText.appendChild(player)
+                  battleText.appendChild(base)
+              }
+
+              
               setTimeout(() => {
                 location.reload();
               }, 10000);
@@ -329,10 +386,11 @@ infoWindow.open(map);
 <h3> Number of Bases: <%= current_user.outposts.count%> <h3>
 <div id="battleText">
   <div id ="player-info" class="white-text">
-    <p class="center-text"> Log: </p><br/>
-    <p class="center-text"> Page will reload 10 seconds after log shows... </p>
+    <p class="center-text"> <%=current_user.username%>'s Log: </p><br/>
   </div>
-  <div id ="base-info" class="white-text"></div>
+  <div id ="base-info" class="white-text">
+  </div>
+  <p class="center-text"> Page will reload 10 seconds after log shows... </p>
 </div>
 </section>
  

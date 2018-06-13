@@ -21,16 +21,16 @@ class OutpostsController < ApplicationController
 
   def create
     rand = Random.new
-    @base = Outpost.where(name: params[:name]).first_or_create do |base|
-      base.lat = params[:lat] 
-      base.lng = params[:lng]
-      base.atk =  rand.rand(5)
-      base.def = rand.rand(3)
-      base.hp = rand.rand(40)    
-      base.user_id = 1
+    @outpost = Outpost.where(name: params[:name]).first_or_create do |outpost|
+      outpost.lat = params[:lat] 
+      outpost.lng = params[:lng]
+      outpost.atk =  rand.rand(10)
+      outpost.def = rand.rand(7)
+      outpost.hp = rand.rand(40)    
+      outpost.user_id = 1
     end
 
-    if @base.save
+    if @outpost.save
       p "Base created"
     else
       p "Base creation failed"
@@ -40,7 +40,7 @@ class OutpostsController < ApplicationController
   def update
     @outpost = Outpost.where(name: params[:location]).first
     if(@outpost == nil)
-      p"REEEEEEEEEEEEEEEE"
+      return
     end
     p "#{@outpost} HUFMJREKFEYRWKFREJfkmewrfjirewf11111111111111111111111111111!!!!!!!!!!!!"
    
