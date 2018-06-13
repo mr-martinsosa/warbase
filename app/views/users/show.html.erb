@@ -1,0 +1,12 @@
+
+<br/><br/><br/><br/><br/><br/>
+
+<h2> <%= current_user.username %> 
+<br/> Level: <%= current_user.level %> 
+<br/> Base Count: <%= current_user.outposts.count%></h2>
+
+<div>
+              <%= button_to current_user, :class => "user-buttons", method: :delete, data: { confirm: 'Are you sure?' } do %>
+                Delete
+              <% end %> 
+</div>

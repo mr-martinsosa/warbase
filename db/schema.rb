@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_12_181618) do
+ActiveRecord::Schema.define(version: 2018_06_13_015106) do
 
-  create_table "bases", force: :cascade do |t|
+  create_table "outposts", force: :cascade do |t|
     t.string "name"
     t.string "lat"
     t.string "lng"

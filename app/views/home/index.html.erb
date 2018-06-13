@@ -6,7 +6,7 @@
   <%#= response["location"]["lng"] %>
   <br/>
 <%# end %>
-
+<br/>
 
 
 <% if !signed_in? %>
@@ -101,13 +101,14 @@ if (navigator.geolocation) {
           owner: 1,
           hp: 1,
           atk: 1,
-          def: 1
+          def: 1,
+          index: i
         });
         mapMarkers.push(marker)
 
         axios({
             method: 'get',
-            url: '/bases',
+            url: '/outposts',
             headers: {
                   // these two are required in order for the request to work
                   'X-CSRF-Token': document.querySelector("meta[name=csrf-token]").content,
@@ -130,18 +131,22 @@ if (navigator.geolocation) {
                   })
               })
 
-        // create the html
-        html = `<br/> <div id="info_content"> <button onclick="loadContent(this)" id="buttonClick" data-name="${marker.title}" data-hp="${marker.hp}" data-atk="${marker.atk}" data-def="${marker.def}" data-id="${marker.owner}">Fight!</button></div>`;
+        marker.setMap(map);
+        
+            // create the html
+          
+        // console.log(html)
         // console.log(latlng)
         // console.log(data[i].venue.name)
-        marker.setMap(map);
+        
         // mapMarkers.push(marker)
         google.maps.event.addListener(marker, 'click', (function(marker){
+          
           let lat = (data[i].venue.location.lat)
           let lng = (data[i].venue.location.lng)
           axios({
                 method: 'post',
-                url: '/bases',
+                url: '/outposts',
                 // data: {
                 //   name: marker.title,
                 //   lat: lat,
@@ -158,13 +163,14 @@ if (navigator.geolocation) {
                 // .then((response) => {})
           return function(){
             // console.log(marker.owner)
+            html = `<br/> <div class="info_content"> <button onclick="loadContent(this)" id="buttonClick${marker.index}" data-name="${marker.title}" data-hp="${marker.hp}" data-atk="${marker.atk}" data-def="${marker.def}" data-id="${marker.owner}">Fight!</button></div>`;
             markerDetails = "Location: " + marker.title + "<br/> Owner: " + marker.owner + "<br/> HP: " + marker.hp + " " + html
             infoWindow.setContent(markerDetails);
             infoWindow.open(map, marker)
               
               axios({
                 method: 'post',
-                url: '/bases',
+                url: '/outposts',
                 // data: {
                 //   name: marker.title,
                 //   lat: lat,
@@ -284,9 +290,7 @@ infoWindow.open(map);
 </script>
 
 <h3> <%= current_user.username %>'s HP: <%= current_user.hp %> </h3>
-<h3> <%#= currentbasename %>'s HP: <%#= currentbasehp %> </h3>
-<!--<h3> Number of Bases: <%#= current_user.bases %> -->
-<h3> Number of Bases: lol i dunno <h3>
+<h3> Number of Bases: <%= current_user.outposts.count%> <h3>
 
  
 <% end %>

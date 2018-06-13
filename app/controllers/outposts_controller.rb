@@ -1,10 +1,10 @@
-class BasesController < ApplicationController
+class OutpostsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   respond_to :json
 
   def index
-    @base =  Base.all
+    @base =  Outpost.all
     respond_to do |format|
       format.html
       format.json {render json: @base}
@@ -12,7 +12,7 @@ class BasesController < ApplicationController
   end
 
   def new
-    @base =  Base.new
+    @base =  Outpost.new
     respond_to do |format|
       format.html
       format.json {render json: @base}
@@ -21,7 +21,7 @@ class BasesController < ApplicationController
 
   def create
     rand = Random.new
-    @base = Base.where(name: params[:name]).first_or_create do |base|
+    @base = Outpost.where(name: params[:name]).first_or_create do |base|
       base.lat = params[:lat] 
       base.lng = params[:lng]
       base.atk =  rand.rand(5)
