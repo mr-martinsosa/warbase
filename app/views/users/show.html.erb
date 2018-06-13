@@ -1,12 +1,17 @@
 
 <br/><br/><br/><br/><br/><br/>
 
-<h2> <%= current_user.username %> 
-<br/> Level: <%= current_user.level %> 
-<br/> Base Count: <%= current_user.outposts.count%></h2>
+<section class="card background-card">
+  <div class="card-body">
+  <h2> Username: <%= current_user.username %> </h2>
+  <h2> Level: <%= current_user.level %> </h2>
+  <h2> Attack: <%= current_user.atk %> </h2>
+  <h2> Defense: <%= current_user.def %> </h2>
+  <h2> Base Count: <%= current_user.outposts.count%></h2>
 
-<div>
-              <%= button_to current_user, :class => "user-buttons", method: :delete, data: { confirm: 'Are you sure?' } do %>
-                Delete
-              <% end %> 
-</div>
+  <div>
+                <%= button_to current_user, :class => "user-buttons", method: :delete, data: { confirm: 'Are you sure?' } do %>
+                  Delete
+                <% end %> 
+  </div>
+</section>

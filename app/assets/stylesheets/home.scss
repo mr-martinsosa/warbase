@@ -4,8 +4,30 @@
 
 @import "bootstrap"; 
 
-body, html {
-    height: 100%;
+.parallax {
+  /* The image used */
+  background-image: url("city.png");
+
+  /* Set a specific height */
+  height: 100%;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+html {
+    height: 100%;    
+}
+
+h1, h2, h3{
+  font-family:'Balthazar', cursive; 
+  color: white;
+}
+
+.border-me{
+  text-shadow: 2px 0 0 #383E42, -2px 0 0 #383E42, 0 2px 0 #383E42, 0 -2px 0 #383E42, 1px 1px #383E42, -1px -1px 0 #383E42, 1px -1px 0 #383E42, -1px 1px 0 #383E42;
 }
 
 .card-container.card {
@@ -20,6 +42,14 @@ body, html {
     -webkit-user-select: none;
     user-select: none;
     cursor: default;
+}
+
+.btn btn-primary{
+  font-family: 'Balthazar', cursive;
+}
+
+.background-card{
+  background-color: #383E42 !important; /* Boostrap needs to stop fighting me. */
 }
 
 .card {
@@ -41,6 +71,11 @@ body, html {
 
 .signed-in-text{
   color: white;
+}
+
+.white-text{
+  color: white;
+  font-family:'Balthazar', cursive;
 }
 
 /*
@@ -67,5 +102,12 @@ body, html {
 
 .rpg{
   background: black;
+  color: white;
+}
+
+/*
+* Footer
+*/
+.footer-white{
   color: white;
 }

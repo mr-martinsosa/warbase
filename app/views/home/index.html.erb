@@ -14,11 +14,15 @@
       <header class="masthead mb-auto">
       </header>
 
-      <main role="main" class="inner cover">
-        <h1 class="cover-heading">Warbase</h1>
+      <main role="main" class="inner cover card background-card border-light rounded">
+        <br/>
+        <h1 class="cover-heading card-title">Warbase</h1>
+        <br>/
+        <%=image_tag "sword.gif" %>
         <br>
-        <h2 class="lead">Take over the city!</h3> <br>
-          <%= button_to 'Sign in',  new_user_session_path, method: :get, class: "btn btn-primary" %>
+        <h2 class="lead card-body">Take over the city!</h3> <br>
+          <%= button_to 'Sign up',  new_user_registration_path, method: :get, class: "btn btn-light" %>
+          <br/>
       </main>
 
       <footer class="mastfoot mt-auto">
@@ -28,23 +32,25 @@
 <% else %>
 <br/>
 <br/>
-<p id="notice"><%= notice %></p>
+<p id="notice" class="white-text"><%= notice %></p>
 
 <main role="main" >
-<h1>To battle!</h1>
-  <!--<div style='width: 800px;'>
-    <div id="geolocation" style='width: 800px; height: 400px;'></div>
-  </div> -->
+  <br>
+  <br>
+  <br>
+  <h1 class="border-me">To Battle!</h1>
   <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <section class="table-responsive">
+    <section class="table-responsive"> <!-- using this as a cheap underline -->
     </section>
   </div>
 </main>
 
-<div id="map"></div>
+<section class="card embed-responsive embed-responsive-4by3 ">
+  <div id="map" class="card-body embed-responsive-item"></div>
+    
 
     <div id="venues"></div>
-
+</section>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV["GOOGLE"] %>&callback=initMap"
     async defer></script>
@@ -260,8 +266,8 @@ function loadContent(base){
                     battleText.appendChild(playerStatus)
                   }
                 else{
-                  player = document.createElement('div')
-                  base = document.createElement('div')
+                  player = document.querySelector('player-info')
+                  base = document.querySelector('base-info')
                   player.classList.add("rpg");
                   base.classList.add("rpg");
                   player.innerHTML= "You take " + playerDamage + " damage!"
@@ -289,10 +295,17 @@ infoWindow.open(map);
 
 </script>
 
+<section class="card background-card">
 <h3> <%= current_user.username %>'s HP: <%= current_user.hp %> </h3>
+<h3> ATK: <%= current_user.atk %> </h3>
+<h3> DEF: <%= current_user.def %> </h3>
 <h3> Number of Bases: <%= current_user.outposts.count%> <h3>
-
+<div id="battleText">
+  <div id ="player-info" class="white-text"></div>
+  <div id ="base-info" class="white-text"></div>
+</div>
+</section>
  
 <% end %>
 
-<div id="battleText"></div>
+

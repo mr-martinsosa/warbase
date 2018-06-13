@@ -1,6 +1,9 @@
 <br/><br/><br/><br/><br/><br/>
-
-<h2> High Scores </h2>
-<% @users.each_with_index do |user, index| %>
-   <h3>  <%= index +1%>. <%=user.username %> Base count: <%= user.outposts.count %> </h3>
-<% end %>
+<section class="card background-card">
+    <h2> High Scores </h2>
+    <div class="card-body">
+    <% @users.each_with_index do |user, index| %>
+    <h3>  <%= index +1%>. <%=user.username %> Base count: <%= user.outposts.count %> </h3>
+    <% end %>
+    </div>
+</section>
