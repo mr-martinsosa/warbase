@@ -150,22 +150,7 @@ if (navigator.geolocation) {
           
           let lat = (data[i].venue.location.lat)
           let lng = (data[i].venue.location.lng)
-          axios({
-                method: 'post',
-                url: '/outposts',
-                // data: {
-                //   name: marker.title,
-                //   lat: lat,
-                //   lng: lng
-                // },
-                data: "lat=" + lat + "&lng=" + lng + "&name=" + marker.title,
-                headers: {
-                  // these two are required in order for the request to work
-                  'X-CSRF-Token': document.querySelector("meta[name=csrf-token]").content,
-                  // lets Rails know this is going to be an AJAX request
-                  'X-Requested-With': 'XMLHttpRequest'
-                }
-              })
+         
                 // .then((response) => {})
           return function(){
             // console.log(marker.owner)
@@ -176,7 +161,7 @@ if (navigator.geolocation) {
               
               axios({
                 method: 'post',
-                url: '/outposts',
+                url: '/outposts/update',
                 // data: {
                 //   name: marker.title,
                 //   lat: lat,
@@ -280,6 +265,41 @@ function loadContent(base){
                   battleText.appendChild(player)
                   battleText.appendChild(base)
               }
+
+              axios({
+                method: 'post',
+                url: '/outposts/update',
+                // data: {
+                //   name: marker.title,
+                //   lat: lat,
+                //   lng: lng
+                // },
+                data: "hp=" + hp + "&atk=" + atk + "&def=" + def + "&user_id=" + user_id,
+                headers: {
+                  // these two are required in order for the request to work
+                  'X-CSRF-Token': document.querySelector("meta[name=csrf-token]").content,
+                  // lets Rails know this is going to be an AJAX request
+                  'X-Requested-With': 'XMLHttpRequest'
+                }
+              })
+
+              axios({
+                method: 'post',
+                url: '/users/update',
+                // data: {
+                //   name: marker.title,
+                //   lat: lat,
+                //   lng: lng
+                // },
+                data: "hp=" + currentUserHP,
+                headers: {
+                  // these two are required in order for the request to work
+                  'X-CSRF-Token': document.querySelector("meta[name=csrf-token]").content,
+                  // lets Rails know this is going to be an AJAX request
+                  'X-Requested-With': 'XMLHttpRequest'
+                }
+              })
+
               setTimeout(() => {
                 location.reload();
               }, 10000);

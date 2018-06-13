@@ -36,4 +36,15 @@ class OutpostsController < ApplicationController
       p "Base creation failed"
     end
   end
+
+  def update
+    @outpost = Outpost.where(name: params[:location]).first
+    if(@outpost == nil)
+      p"REEEEEEEEEEEEEEEE"
+    end
+    p "#{@outpost} HUFMJREKFEYRWKFREJfkmewrfjirewf11111111111111111111111111111!!!!!!!!!!!!"
+   
+    @outpost.update(:lat => params[:lat], :name => params[:location], :lng => params[:lng], :atk => params[:atk], :def => params[:def], :hp => params[:hp], :user_id => params[:user_id])
+
+  end
 end

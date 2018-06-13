@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   get 'users/show'
+  post 'users/update', to: 'users#update'
   get '/outposts', to: 'outposts#index'
   post '/outposts', to: 'outposts#create'
+  post '/outposts/update', to: 'outposts#update'
   get 'home/index'
   devise_for :users, controllers: {
     sessions: 'users/sessions'
