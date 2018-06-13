@@ -215,20 +215,21 @@ function loadContent(base){
   // location.reload()
               let name, hp, atk, def, user_id, playerDamage, baseDamage, currentUserHP
               name = base.getAttribute("data-name")
-              console.log(name)
+              console.log("name: " +name)
               hp = base.getAttribute("data-hp")
-              console.log(hp)
+              console.log("hp: " +hp)
               atk = base.getAttribute("data-atk")
-              console.log(atk)
+              console.log("atk: " +atk)
               def = base.getAttribute("data-def")
-              console.log(def)
+              console.log("def: " +def)
               user_id = base.getAttribute("data-id")
-              console.log(user_id)
+              console.log("user_id: " +user_id)
               if( <%=current_user.def%> > atk ){
                 playerDamage = 0
-                console.log(playerDamage)
+                console.log("Player took lol: " + playerDamage)
               }else{
                 playerDamage = (<%=current_user.def%> - atk)
+                console.log("Player took :O! : " + playerDamage)
                 if(currentUserHP > playerDamage){
                   currentUserHP  = playerDamage - <%= current_user.hp %>
                 }else{
@@ -237,14 +238,17 @@ function loadContent(base){
                } 
               if(def > <%= current_user.atk %>){
                 baseDamage = 0
+                console.log("lol no base damage: " + baseDamage)
               }else{
-                baseDamage = (def - <%= current_user.atk %>)
+                baseDamage = (<%= current_user.atk %>) - def  
                 if(hp > baseDamage){
-                  hp = baseDamage - hp
+                  hp = hp - baseDamage
+                  console.log("base current hp is overkill: " + hp)
                   
                 }
                 else{
                   hp = hp - baseDamage
+                  console.log("normal damage: " + hp)
                 }
                 console.log("current base hp:" +hp)
                 console.log("current damage taken:" +baseDamage)
@@ -257,8 +261,8 @@ function loadContent(base){
                   playerStatus.innerHTML= "You have died, make a new account. :)"
                   let battleText = document.getElementById('battleText')
                   battleText.appendChild(playerStatus)
-                }else if(baseDamage <= 0){
-                  console.log("hi")
+                }else if(hp <= 0){
+                  console.log(baseDamage)
                     user_id = <%= current_user.id %>
                     playerStatus = document.createElement('div')
                     playerStatus.classList.add("rpg");
@@ -266,8 +270,8 @@ function loadContent(base){
                     battleText.appendChild(playerStatus)
                   }
                 else{
-                  player = document.querySelector('player-info')
-                  base = document.querySelector('base-info')
+                  player = document.querySelector("player-info")
+                  base = document.querySelector("base-info")
                   player.classList.add("rpg");
                   base.classList.add("rpg");
                   player.innerHTML= "You take " + playerDamage + " damage!"
@@ -276,6 +280,9 @@ function loadContent(base){
                   battleText.appendChild(player)
                   battleText.appendChild(base)
               }
+              setTimeout(() => {
+                location.reload();
+              }, 10000);
             }
           
 
@@ -301,7 +308,10 @@ infoWindow.open(map);
 <h3> DEF: <%= current_user.def %> </h3>
 <h3> Number of Bases: <%= current_user.outposts.count%> <h3>
 <div id="battleText">
-  <div id ="player-info" class="white-text"></div>
+  <div id ="player-info" class="white-text">
+    <p class="center-text"> Log: </p><br/>
+    <p class="center-text"> Page will reload 10 seconds after log shows... </p>
+  </div>
   <div id ="base-info" class="white-text"></div>
 </div>
 </section>
