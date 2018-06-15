@@ -1,24 +1,7 @@
-# README
+# Warbase
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A map based game powered by Foursquare's API that allows you to conquer and take over real life locations nearby.
 
-Things you may want to cover:
+![Warbase](https://i.imgur.com/QAsYynm.png)
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+It was created in Ruby on Rails using [Foursquare's API](https://developer.foursquare.com) and [Google Maps API](https://cloud.google.com/maps-platform/)
